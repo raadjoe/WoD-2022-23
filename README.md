@@ -1,1 +1,1 @@
-# WoD-2022-23
+# Materials for the Web of Data course 2022-23
