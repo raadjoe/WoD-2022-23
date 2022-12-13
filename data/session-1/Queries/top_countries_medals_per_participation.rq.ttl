@@ -1,0 +1,12 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX wod: <https://paris-saclay.fr/courses/wod/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?country ?ratio ?nb_medals ?nb_participation WHERE { 
+	?countryIRI rdf:type wod:Country ;
+          rdfs:label ?country ;
+          wod:medalsWon ?nb_medals ;
+          wod:timesParticipated ?nb_participation .
+    BIND (ROUND(?nb_medals/?nb_participation) AS ?ratio) .
+} ORDER BY DESC (?ratio) DESC(?nb_medals)
+LIMIT 10

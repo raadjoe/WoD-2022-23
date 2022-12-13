@@ -1,0 +1,22 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wod: <https://paris-saclay.fr/courses/wod/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+# replace CONSTRUCT with INSERT to insert the triples in the graph 
+
+CONSTRUCT {
+    ?country owl:sameAs ?dbp_country ;
+             wod:population ?population .
+} WHERE { 
+	SERVICE <https://dbpedia.org/sparql> {
+        ?dbp_country rdf:type dbo:Country ;
+                     rdfs:label ?dbp_label ;
+                     dbo:populationTotal ?population
+        FILTER (LANG(?dbp_label) = 'en')
+    }
+    ?country rdf:type wod:Country ;
+             rdfs:label ?countryLabel
+    FILTER (?dbp_label = ?countryLabel)
+}
