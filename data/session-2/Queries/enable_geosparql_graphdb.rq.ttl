@@ -1,0 +1,2 @@
+PREFIX geoSparql: <http://www.ontotext.com/plugins/geosparql#>
+INSERT DATA { [] geoSparql:enabled "true" . }
