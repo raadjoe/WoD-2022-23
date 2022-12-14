@@ -1,0 +1,22 @@
+PREFIX wod: <https://paris-saclay.fr/courses/wod/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX uom: <http://www.opengis.net/def/uom/OGC/1.0/>
+
+SELECT ?neighbor ?neighborLabel ?roundedDistance WHERE {
+    ?commune rdf:type wod:Commune ; 
+             rdfs:label "Orsay"@fr ;
+             geo:hasGeometry ?shapeCommune .
+    ?shapeCommune geo:asWKT ?wktCommune .
+    
+    ?neighbor rdf:type wod:Commune ;
+              rdfs:label ?neighborLabel ;
+              geo:hasGeometry ?shapeNeighbor .
+    ?shapeNeighbor geo:asWKT ?wktNeighbor .
+    BIND(geof:distance(?wktCommune, ?wktNeighbor, uom:metre) AS ?distance)
+    BIND(ROUND(?distance) AS ?roundedDistance)
+    FILTER(?neighbor != ?commune)
+} ORDER BY ?distance
+limit 10

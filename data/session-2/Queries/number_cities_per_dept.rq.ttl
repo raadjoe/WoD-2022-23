@@ -1,0 +1,10 @@
+PREFIX wod: <https://paris-saclay.fr/courses/wod/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+select ?dep ?depLabel (COUNT(?commune) AS ?nb_communes) where { 
+	?commune wod:inDepartment ?dep .
+    ?dep rdf:type wod:Department ;
+         rdfs:label ?depLabel
+} GROUP BY ?dep ?depLabel 
+ORDER BY DESC (?nb_communes)
